@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+:root {
+  --my-grid-cols: repeat(auto-fit, minmax(3rem, 1fr))
+  /* --my-grid-cols: repeat(3, minmax(auto, 1fr)) */
+
+}

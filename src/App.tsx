@@ -2,7 +2,7 @@ import { useState } from "react";
 import words from "./words.json";
 import HangmanDrawing from "./components/HangmanDrawing";
 import HangmanWord from "./components/HangmanWord";
-// import Alphabet from "./components/Alphabet";
+import Alphabet from "./components/Alphabet";
 
 function App() {
   const [word, setWord] = useState(() => {
@@ -17,7 +17,7 @@ function App() {
       <p className="text-3xl text-center">Win or Lose</p>
       <HangmanDrawing />
       <HangmanWord />
-      {/* <Alphabet /> */}
+      <Alphabet />
     </div>
   )
 }
