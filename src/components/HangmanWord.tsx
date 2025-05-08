@@ -5,7 +5,6 @@ type HangmanWordProps = {
 }
 
 const HangmanWord = ({ wordToGuess, guessedLetters }: HangmanWordProps) => {
-
   return (
     <div className="flex gap-4 text-5xl font-bold uppercase font-mono">
       {wordToGuess.split("").map((letter, index) => (
