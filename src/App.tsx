@@ -44,7 +44,11 @@ function App() {
       <p className="text-3xl text-center">Win or Lose</p>
       <HangmanDrawing incorrectGuesses={incorrectLetters.length} />
       <HangmanWord wordToGuess={wordToGuess} guessedLetters={guessedLetters} />
-      <Alphabet />
+      <Alphabet 
+        correctLetters={guessedLetters.filter(letter => wordToGuess.includes(letter))}
+        incorrectLetters={incorrectLetters}
+        addGuessedLetter={addGuessedLetter}
+      />
     </div>
   )
 }
