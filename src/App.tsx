@@ -1,19 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
-import words from "./words.json";
 import HangmanDrawing from "./components/HangmanDrawing";
 import HangmanWord from "./components/HangmanWord";
 import Alphabet from "./components/Alphabet";
+import { getWord } from "./utils/getWord";
 
 function App() {
-  const [wordToGuess, setWordToGuess] = useState(() => {
-    return words[Math.floor(Math.random() * words.length)]
-  })
-
+  const [wordToGuess, setWordToGuess] = useState(getWord)
   const [guessedLetters, setGuessedLetters] = useState<string[]>([])
 
   const incorrectLetters = guessedLetters.filter(letter => {
     return !wordToGuess.includes(letter)
   })
+
+  const restartGame = () => {
+    console.log("restart game")
+    setGuessedLetters([])
+    setWordToGuess(getWord())
+  }
 
   const isLoser = incorrectLetters.length >= 6
   const isWinner = wordToGuess
@@ -21,10 +24,10 @@ function App() {
     .every(letter => guessedLetters.includes(letter))
 
   const addGuessedLetter = useCallback((letter: string) => {
-    if (guessedLetters.includes(letter)) return
+    if (guessedLetters.includes(letter) || isWinner || isLoser) return
 
     setGuessedLetters(currentLetters => [...currentLetters, letter])
-  }, [guessedLetters])
+  }, [guessedLetters, isWinner, isLoser])
 
 
 
@@ -45,17 +48,31 @@ function App() {
   }, [guessedLetters])
 
   return (
-    <div className="flex flex-col items-center gap-8 max-w-3xl border-2 border-indigo-500 p-2 mx-auto">
-      <p className="text-3xl text-center">
-        {isWinner && "Winner! - Refresh to play again"}
-        {isLoser && "Nice try - Refresh to play again"}
+    <div className="flex flex-col items-center gap-8 max-w-3xl p-2 mx-auto">
+           
+      <p className="text-3xl font-bold">
+        {isWinner && "Winner!"}
+        {isLoser && "Nice try!"}
       </p>
+
+      <button 
+        onClick={restartGame}
+        className="border-2 rounded-sm uppercase font-bold py-1 px-2 cursor-pointer text-xl focus:bg-blue-400 hover:bg-blue-400"
+      >
+        New Game
+      </button>
+      
       <HangmanDrawing incorrectGuesses={incorrectLetters.length} />
-      <HangmanWord wordToGuess={wordToGuess} guessedLetters={guessedLetters} />
+      <HangmanWord 
+        wordToGuess={wordToGuess} 
+        guessedLetters={guessedLetters}
+        reveal={isLoser}
+      />
       <Alphabet 
         correctLetters={guessedLetters.filter(letter => wordToGuess.includes(letter))}
         incorrectLetters={incorrectLetters}
         addGuessedLetter={addGuessedLetter}
+        disabled={isWinner || isLoser}
       />
     </div>
   )

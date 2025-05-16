@@ -31,9 +31,10 @@ type AlphabetProps = {
   correctLetters: string[]
   incorrectLetters: string[]
   addGuessedLetter: (letter: string) => void
+  disabled?: boolean
 }
 
-const Alphabet = ({ correctLetters, incorrectLetters, addGuessedLetter }: AlphabetProps) => {
+const Alphabet = ({ correctLetters, incorrectLetters, addGuessedLetter, disabled }: AlphabetProps) => {
   return (
     <div className="self-stretch grid grid-cols-(--my-grid-cols) gap-2">
       {letters.map(letter => {
@@ -42,13 +43,13 @@ const Alphabet = ({ correctLetters, incorrectLetters, addGuessedLetter }: Alphab
 
         return (
           <button 
-          className={`border-2 rounded-sm uppercase font-bold text-3xl aspect-square p-2 cursor-pointer  disabled:cursor-not-allowed [&:not(:disabled):hover]:bg-blue-400 [&:not(:disabled):focus]:bg-blue-400 
-            ${isCorrect ? "bg-green-400" : ""} 
-            ${isIncorrect ? "bg-red-400" : ""}`}
-          disabled={isCorrect || isIncorrect}
-          key={letter}
-          onClick={() => addGuessedLetter(letter)}
-        >
+            className={`border-2 rounded-sm uppercase font-bold text-3xl aspect-square p-2 cursor-pointer  disabled:cursor-not-allowed [&:not(:disabled):hover]:bg-blue-400 [&:not(:disabled):focus]:bg-blue-400 
+              ${isCorrect ? "bg-green-400" : ""} 
+              ${isIncorrect ? "bg-red-400" : ""}`}
+            disabled={isCorrect || isIncorrect || disabled}
+            key={letter}
+            onClick={() => addGuessedLetter(letter)}
+          >
           {letter}
         </button>
         )
